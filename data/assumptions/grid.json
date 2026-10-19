@@ -1,0 +1,567 @@
+{
+  "version": "2026-10-19",
+  "regions": [
+    {
+      "key": "us-east",
+      "label": "US-East (Virginia)"
+    },
+    {
+      "key": "us-texas",
+      "label": "US-Texas (ERCOT)"
+    },
+    {
+      "key": "us-west",
+      "label": "US-West (CA/OR/WA)"
+    },
+    {
+      "key": "ireland",
+      "label": "Ireland"
+    },
+    {
+      "key": "netherlands",
+      "label": "Netherlands"
+    },
+    {
+      "key": "sweden",
+      "label": "Sweden"
+    },
+    {
+      "key": "uk",
+      "label": "United Kingdom"
+    },
+    {
+      "key": "singapore",
+      "label": "Singapore"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "grid.us-east.intensity",
+      "label": "Grid carbon intensity — US-East (Virginia)",
+      "unit": "gCO2e/kWh",
+      "value": {
+        "low": 300,
+        "central": 370,
+        "high": 450
+      },
+      "notes": "Placeholder seed value (location-based, annual average); verify against Ember / Electricity Maps.",
+      "sources": [
+        {
+          "title": "Ember — electricity data explorer (grid carbon intensity)",
+          "url": "https://ember-energy.org/data/electricity-data-explorer/"
+        },
+        {
+          "title": "Electricity Maps",
+          "url": "https://app.electricitymaps.com/"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.us-east.price",
+      "label": "Industrial electricity price — US-East (Virginia)",
+      "unit": "$/kWh",
+      "value": {
+        "low": 0.07,
+        "central": 0.085,
+        "high": 0.11
+      },
+      "notes": "Placeholder seed value; verify against national statistics / IEA.",
+      "sources": [
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.us-east.wue_offsite",
+      "label": "Off-site water intensity of electricity — US-East (Virginia)",
+      "unit": "L/kWh",
+      "value": {
+        "low": 1.5,
+        "central": 2.5,
+        "high": 4
+      },
+      "notes": "Water consumed in generation (thermal cooling, hydro evaporation). Placeholder seed value.",
+      "sources": [
+        {
+          "title": "LBNL (2024) — United States Data Center Energy Usage Report",
+          "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.us-texas.intensity",
+      "label": "Grid carbon intensity — US-Texas (ERCOT)",
+      "unit": "gCO2e/kWh",
+      "value": {
+        "low": 330,
+        "central": 380,
+        "high": 450
+      },
+      "notes": "Placeholder seed value (location-based, annual average); verify against Ember / Electricity Maps.",
+      "sources": [
+        {
+          "title": "Ember — electricity data explorer (grid carbon intensity)",
+          "url": "https://ember-energy.org/data/electricity-data-explorer/"
+        },
+        {
+          "title": "Electricity Maps",
+          "url": "https://app.electricitymaps.com/"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.us-texas.price",
+      "label": "Industrial electricity price — US-Texas (ERCOT)",
+      "unit": "$/kWh",
+      "value": {
+        "low": 0.05,
+        "central": 0.065,
+        "high": 0.09
+      },
+      "notes": "Placeholder seed value; verify against national statistics / IEA.",
+      "sources": [
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.us-texas.wue_offsite",
+      "label": "Off-site water intensity of electricity — US-Texas (ERCOT)",
+      "unit": "L/kWh",
+      "value": {
+        "low": 1,
+        "central": 1.8,
+        "high": 3
+      },
+      "notes": "Water consumed in generation (thermal cooling, hydro evaporation). Placeholder seed value.",
+      "sources": [
+        {
+          "title": "LBNL (2024) — United States Data Center Energy Usage Report",
+          "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.us-west.intensity",
+      "label": "Grid carbon intensity — US-West (CA/OR/WA)",
+      "unit": "gCO2e/kWh",
+      "value": {
+        "low": 100,
+        "central": 220,
+        "high": 300
+      },
+      "notes": "Placeholder seed value (location-based, annual average); verify against Ember / Electricity Maps.",
+      "sources": [
+        {
+          "title": "Ember — electricity data explorer (grid carbon intensity)",
+          "url": "https://ember-energy.org/data/electricity-data-explorer/"
+        },
+        {
+          "title": "Electricity Maps",
+          "url": "https://app.electricitymaps.com/"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.us-west.price",
+      "label": "Industrial electricity price — US-West (CA/OR/WA)",
+      "unit": "$/kWh",
+      "value": {
+        "low": 0.07,
+        "central": 0.11,
+        "high": 0.16
+      },
+      "notes": "Placeholder seed value; verify against national statistics / IEA.",
+      "sources": [
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.us-west.wue_offsite",
+      "label": "Off-site water intensity of electricity — US-West (CA/OR/WA)",
+      "unit": "L/kWh",
+      "value": {
+        "low": 1.5,
+        "central": 3.5,
+        "high": 6
+      },
+      "notes": "Water consumed in generation (thermal cooling, hydro evaporation). Placeholder seed value.",
+      "sources": [
+        {
+          "title": "LBNL (2024) — United States Data Center Energy Usage Report",
+          "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.ireland.intensity",
+      "label": "Grid carbon intensity — Ireland",
+      "unit": "gCO2e/kWh",
+      "value": {
+        "low": 230,
+        "central": 280,
+        "high": 350
+      },
+      "notes": "Placeholder seed value (location-based, annual average); verify against Ember / Electricity Maps.",
+      "sources": [
+        {
+          "title": "Ember — electricity data explorer (grid carbon intensity)",
+          "url": "https://ember-energy.org/data/electricity-data-explorer/"
+        },
+        {
+          "title": "Electricity Maps",
+          "url": "https://app.electricitymaps.com/"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.ireland.price",
+      "label": "Industrial electricity price — Ireland",
+      "unit": "$/kWh",
+      "value": {
+        "low": 0.15,
+        "central": 0.2,
+        "high": 0.28
+      },
+      "notes": "Placeholder seed value; verify against national statistics / IEA.",
+      "sources": [
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.ireland.wue_offsite",
+      "label": "Off-site water intensity of electricity — Ireland",
+      "unit": "L/kWh",
+      "value": {
+        "low": 0.5,
+        "central": 1,
+        "high": 2
+      },
+      "notes": "Water consumed in generation (thermal cooling, hydro evaporation). Placeholder seed value.",
+      "sources": [
+        {
+          "title": "LBNL (2024) — United States Data Center Energy Usage Report",
+          "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.netherlands.intensity",
+      "label": "Grid carbon intensity — Netherlands",
+      "unit": "gCO2e/kWh",
+      "value": {
+        "low": 200,
+        "central": 270,
+        "high": 350
+      },
+      "notes": "Placeholder seed value (location-based, annual average); verify against Ember / Electricity Maps.",
+      "sources": [
+        {
+          "title": "Ember — electricity data explorer (grid carbon intensity)",
+          "url": "https://ember-energy.org/data/electricity-data-explorer/"
+        },
+        {
+          "title": "Electricity Maps",
+          "url": "https://app.electricitymaps.com/"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.netherlands.price",
+      "label": "Industrial electricity price — Netherlands",
+      "unit": "$/kWh",
+      "value": {
+        "low": 0.1,
+        "central": 0.15,
+        "high": 0.22
+      },
+      "notes": "Placeholder seed value; verify against national statistics / IEA.",
+      "sources": [
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.netherlands.wue_offsite",
+      "label": "Off-site water intensity of electricity — Netherlands",
+      "unit": "L/kWh",
+      "value": {
+        "low": 0.5,
+        "central": 1,
+        "high": 2
+      },
+      "notes": "Water consumed in generation (thermal cooling, hydro evaporation). Placeholder seed value.",
+      "sources": [
+        {
+          "title": "LBNL (2024) — United States Data Center Energy Usage Report",
+          "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.sweden.intensity",
+      "label": "Grid carbon intensity — Sweden",
+      "unit": "gCO2e/kWh",
+      "value": {
+        "low": 15,
+        "central": 30,
+        "high": 50
+      },
+      "notes": "Placeholder seed value (location-based, annual average); verify against Ember / Electricity Maps.",
+      "sources": [
+        {
+          "title": "Ember — electricity data explorer (grid carbon intensity)",
+          "url": "https://ember-energy.org/data/electricity-data-explorer/"
+        },
+        {
+          "title": "Electricity Maps",
+          "url": "https://app.electricitymaps.com/"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.sweden.price",
+      "label": "Industrial electricity price — Sweden",
+      "unit": "$/kWh",
+      "value": {
+        "low": 0.04,
+        "central": 0.07,
+        "high": 0.12
+      },
+      "notes": "Placeholder seed value; verify against national statistics / IEA.",
+      "sources": [
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.sweden.wue_offsite",
+      "label": "Off-site water intensity of electricity — Sweden",
+      "unit": "L/kWh",
+      "value": {
+        "low": 0.5,
+        "central": 2,
+        "high": 6
+      },
+      "notes": "Water consumed in generation (thermal cooling, hydro evaporation). Placeholder seed value.",
+      "sources": [
+        {
+          "title": "LBNL (2024) — United States Data Center Energy Usage Report",
+          "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.uk.intensity",
+      "label": "Grid carbon intensity — United Kingdom",
+      "unit": "gCO2e/kWh",
+      "value": {
+        "low": 150,
+        "central": 200,
+        "high": 260
+      },
+      "notes": "Placeholder seed value (location-based, annual average); verify against Ember / Electricity Maps.",
+      "sources": [
+        {
+          "title": "Ember — electricity data explorer (grid carbon intensity)",
+          "url": "https://ember-energy.org/data/electricity-data-explorer/"
+        },
+        {
+          "title": "Electricity Maps",
+          "url": "https://app.electricitymaps.com/"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.uk.price",
+      "label": "Industrial electricity price — United Kingdom",
+      "unit": "$/kWh",
+      "value": {
+        "low": 0.16,
+        "central": 0.22,
+        "high": 0.3
+      },
+      "notes": "Placeholder seed value; verify against national statistics / IEA.",
+      "sources": [
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.uk.wue_offsite",
+      "label": "Off-site water intensity of electricity — United Kingdom",
+      "unit": "L/kWh",
+      "value": {
+        "low": 0.5,
+        "central": 1,
+        "high": 2
+      },
+      "notes": "Water consumed in generation (thermal cooling, hydro evaporation). Placeholder seed value.",
+      "sources": [
+        {
+          "title": "LBNL (2024) — United States Data Center Energy Usage Report",
+          "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.singapore.intensity",
+      "label": "Grid carbon intensity — Singapore",
+      "unit": "gCO2e/kWh",
+      "value": {
+        "low": 400,
+        "central": 470,
+        "high": 500
+      },
+      "notes": "Placeholder seed value (location-based, annual average); verify against Ember / Electricity Maps.",
+      "sources": [
+        {
+          "title": "Ember — electricity data explorer (grid carbon intensity)",
+          "url": "https://ember-energy.org/data/electricity-data-explorer/"
+        },
+        {
+          "title": "Electricity Maps",
+          "url": "https://app.electricitymaps.com/"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.singapore.price",
+      "label": "Industrial electricity price — Singapore",
+      "unit": "$/kWh",
+      "value": {
+        "low": 0.14,
+        "central": 0.18,
+        "high": 0.25
+      },
+      "notes": "Placeholder seed value; verify against national statistics / IEA.",
+      "sources": [
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "grid.singapore.wue_offsite",
+      "label": "Off-site water intensity of electricity — Singapore",
+      "unit": "L/kWh",
+      "value": {
+        "low": 0.8,
+        "central": 1.2,
+        "high": 2
+      },
+      "notes": "Water consumed in generation (thermal cooling, hydro evaporation). Placeholder seed value.",
+      "sources": [
+        {
+          "title": "LBNL (2024) — United States Data Center Energy Usage Report",
+          "url": "https://eta.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    }
+  ]
+}

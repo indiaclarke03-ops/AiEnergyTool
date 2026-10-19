@@ -1,0 +1,367 @@
+{
+  "version": "2026-10-19",
+  "assumptions": [
+    {
+      "id": "tco.capacity_mw",
+      "label": "Facility IT capacity",
+      "unit": "MW",
+      "value": {
+        "low": 1000,
+        "central": 1000,
+        "high": 1000
+      },
+      "notes": "Scenario parameter, not uncertain.",
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.capex.servers",
+      "label": "Server capex",
+      "unit": "$",
+      "value": {
+        "low": 17000000000,
+        "central": 21188000000,
+        "high": 26000000000
+      },
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.capex.facility",
+      "label": "Facility capex",
+      "unit": "$",
+      "value": {
+        "low": 9000000000,
+        "central": 11433000000,
+        "high": 14000000000
+      },
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.capex.network",
+      "label": "Network capex",
+      "unit": "$",
+      "value": {
+        "low": 3900000000,
+        "central": 4925000000,
+        "high": 6000000000
+      },
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.capex.land",
+      "label": "Land capex",
+      "unit": "$",
+      "value": {
+        "low": 100000000,
+        "central": 172000000,
+        "high": 300000000
+      },
+      "notes": "Not depreciated; annualized as the opportunity cost of capital (land × cost of capital), as in Epoch.",
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.capex.utility",
+      "label": "Utility works capex",
+      "unit": "$",
+      "value": {
+        "low": 100000000,
+        "central": 164000000,
+        "high": 300000000
+      },
+      "notes": "Annualized over the facility lifespan.",
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.lifespan.it",
+      "label": "IT equipment lifespan (servers + network)",
+      "unit": "years",
+      "value": {
+        "low": 3,
+        "central": 5,
+        "high": 7
+      },
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.lifespan.facility",
+      "label": "Facility lifespan",
+      "unit": "years",
+      "value": {
+        "low": 10,
+        "central": 14,
+        "high": 20
+      },
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.electricity_price",
+      "label": "Electricity price (reference facility)",
+      "unit": "$/kWh",
+      "value": {
+        "low": 0.05,
+        "central": 0.0834,
+        "high": 0.12
+      },
+      "notes": "Epoch uses 8.34 ¢/kWh. The spec's $0.068 was derived assuming 100% utilization and PUE 1; Epoch actually uses 71% utilization and PUE 1.14.",
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.utilization",
+      "label": "Utilization (average IT power ÷ capacity)",
+      "unit": "fraction",
+      "value": {
+        "low": 0.3,
+        "central": 0.71,
+        "high": 0.95
+      },
+      "notes": "Epoch uses 71%.",
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.pue",
+      "label": "PUE (reference facility)",
+      "unit": "ratio",
+      "value": {
+        "low": 1.08,
+        "central": 1.14,
+        "high": 1.3
+      },
+      "boundary": "facility",
+      "notes": "Epoch uses 1.14.",
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        },
+        {
+          "title": "Uptime Institute — Global Data Center Survey (PUE)",
+          "url": "https://uptimeinstitute.com/resources/research-and-reports"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.opex.taxes",
+      "label": "Taxes",
+      "unit": "$/yr",
+      "value": {
+        "low": 100000000,
+        "central": 143000000,
+        "high": 190000000
+      },
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.opex.maintenance",
+      "label": "Maintenance",
+      "unit": "$/yr",
+      "value": {
+        "low": 80000000,
+        "central": 120000000,
+        "high": 160000000
+      },
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.opex.labor",
+      "label": "Labor",
+      "unit": "$/yr",
+      "value": {
+        "low": 25000000,
+        "central": 40000000,
+        "high": 60000000
+      },
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.opex.water",
+      "label": "Water (utility bill)",
+      "unit": "$/yr",
+      "value": {
+        "low": 3000000,
+        "central": 6000000,
+        "high": 12000000
+      },
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.cost_of_capital",
+      "label": "Cost of capital (discount rate)",
+      "unit": "fraction/yr",
+      "value": {
+        "low": 0,
+        "central": 0.065,
+        "high": 0.12
+      },
+      "notes": "Epoch annualizes with a capital recovery factor (≈0.24 for 5-yr IT, implying ≈6–6.5% WACC). Set to 0 for straight-line depreciation.",
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.embodied.server_t_per_mw",
+      "label": "Embodied carbon of IT hardware",
+      "unit": "tCO2e/MW",
+      "value": {
+        "low": 150,
+        "central": 300,
+        "high": 600
+      },
+      "boundary": "lifecycle",
+      "notes": "Rough placeholder for manufacturing emissions of servers + network per MW of IT capacity; amortized over IT lifespan. Needs a proper source.",
+      "sources": [
+        {
+          "title": "Brookings — Mistral Large 2 LCA and EU AI Act disclosure context",
+          "url": "https://www.brookings.edu/articles/global-energy-demands-within-the-ai-regulatory-landscape"
+        },
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "tco.embodied.facility_t_per_mw",
+      "label": "Embodied carbon of facility construction",
+      "unit": "tCO2e/MW",
+      "value": {
+        "low": 500,
+        "central": 1000,
+        "high": 2000
+      },
+      "boundary": "lifecycle",
+      "notes": "Rough placeholder (concrete, steel, electrical plant); amortized over facility lifespan. Needs a proper source.",
+      "sources": [
+        {
+          "title": "IEA (2025) — Energy and AI",
+          "url": "https://www.iea.org/reports/energy-and-ai"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "ext.scc",
+      "label": "Social cost of carbon",
+      "unit": "$/tCO2e",
+      "value": {
+        "low": 50,
+        "central": 120,
+        "high": 200
+      },
+      "notes": "User-set; spec default range $50–$200/t.",
+      "sources": [
+        {
+          "title": "US EPA (2023) social cost of greenhouse gases",
+          "url": "https://www.epa.gov/environmental-economics/scghg"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "ext.water_value",
+      "label": "Shadow price of water",
+      "unit": "$/m3",
+      "value": {
+        "low": 0.5,
+        "central": 2,
+        "high": 10
+      },
+      "notes": "Placeholder valuation of consumed freshwater; highly location-dependent.",
+      "sources": [
+        {
+          "title": "Placeholder — to be sourced (water scarcity valuation)",
+          "url": "https://www.oecd.org/en/topics/water.html"
+        }
+      ],
+      "verified": false
+    }
+  ]
+}

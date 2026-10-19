@@ -1,0 +1,324 @@
+{
+  "version": "2026-10-19",
+  "assumptions": [
+    {
+      "id": "lever.caching.prefill_multiplier",
+      "label": "Prefill energy multiplier with shorter prompts / context caching",
+      "unit": "multiplier",
+      "value": {
+        "low": 0.1,
+        "central": 0.4,
+        "high": 0.7
+      },
+      "notes": "Spec range −30% to −90% prefill energy.",
+      "sources": [
+        {
+          "title": "TokenPowerBench — batch size and FP8 effects on energy per token",
+          "url": "https://arxiv.org/html/2512.03024v1"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "lever.batching.multiplier",
+      "label": "Energy-per-token multiplier from continuous batching / higher utilization",
+      "unit": "multiplier",
+      "value": {
+        "low": 0.25,
+        "central": 0.35,
+        "high": 0.5
+      },
+      "notes": "Measured relative to low-batch serving. Default e_out values are calibrated to production (already batched) deployments, so this lever may overstate gains against the baseline.",
+      "sources": [
+        {
+          "title": "TokenPowerBench — batch size and FP8 effects on energy per token",
+          "url": "https://arxiv.org/html/2512.03024v1"
+        },
+        {
+          "title": "Spheron (2026) — AI inference power & electricity cost",
+          "url": "https://www.spheron.network/blog/ai-inference-power-electricity-cost-2026"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "lever.fp8.multiplier",
+      "label": "Energy-per-token multiplier from FP8 quantization",
+      "unit": "multiplier",
+      "value": {
+        "low": 0.7,
+        "central": 0.735,
+        "high": 0.77
+      },
+      "sources": [
+        {
+          "title": "TokenPowerBench — batch size and FP8 effects on energy per token",
+          "url": "https://arxiv.org/html/2512.03024v1"
+        },
+        {
+          "title": "Spheron (2026) — AI inference power & electricity cost",
+          "url": "https://www.spheron.network/blog/ai-inference-power-electricity-cost-2026"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "lever.cooling.pue",
+      "label": "PUE with liquid cooling",
+      "unit": "ratio",
+      "value": {
+        "low": 1.05,
+        "central": 1.08,
+        "high": 1.1
+      },
+      "boundary": "facility",
+      "sources": [
+        {
+          "title": "Uptime Institute — Global Data Center Survey (PUE)",
+          "url": "https://uptimeinstitute.com/resources/research-and-reports"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "lever.lifespan.it_years",
+      "label": "Extended IT equipment lifespan",
+      "unit": "years",
+      "value": {
+        "low": 6,
+        "central": 7,
+        "high": 8
+      },
+      "notes": "Lower annual capex; embodied carbon spread over more years.",
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    }
+  ],
+  "levers": [
+    {
+      "id": "reasoning_off",
+      "label": "Turn off reasoning for simple tasks",
+      "description": "Removes hidden reasoning tokens from the query.",
+      "actors": [
+        "user"
+      ],
+      "metrics": [
+        "energy",
+        "carbon",
+        "water",
+        "cost"
+      ],
+      "kind": "reasoning_off",
+      "sources": [
+        {
+          "title": "Joule (2026) — Energy use of AI inference, efficiency pathways, and test-time scaling",
+          "url": "https://www.sciencedirect.com/science/article/pii/S2542435126001145"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "smaller_model",
+      "label": "Route to a smaller model",
+      "description": "Swaps the model class one step down (frontier → medium → small).",
+      "actors": [
+        "user",
+        "provider"
+      ],
+      "metrics": [
+        "energy",
+        "carbon",
+        "water",
+        "cost"
+      ],
+      "kind": "model_downsize",
+      "sources": [
+        {
+          "title": "ML.ENERGY Benchmark & Leaderboard (NeurIPS 2025)",
+          "url": "https://arxiv.org/html/2505.06371v2"
+        },
+        {
+          "title": "Hugging Face AI Energy Score",
+          "url": "https://huggingface.github.io/AIEnergyScore"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "caching",
+      "label": "Shorter prompts / context caching",
+      "description": "Cuts prefill energy by 30–90%.",
+      "actors": [
+        "user",
+        "provider"
+      ],
+      "metrics": [
+        "energy",
+        "carbon",
+        "water",
+        "cost"
+      ],
+      "kind": "multiply",
+      "targets": [
+        "prefill_ratio"
+      ],
+      "effectAssumption": "lever.caching.prefill_multiplier",
+      "sources": [
+        {
+          "title": "TokenPowerBench — batch size and FP8 effects on energy per token",
+          "url": "https://arxiv.org/html/2512.03024v1"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "batching",
+      "label": "Continuous batching / higher utilization",
+      "description": "Energy per token ×0.25–0.5.",
+      "actors": [
+        "provider"
+      ],
+      "metrics": [
+        "energy",
+        "carbon",
+        "water",
+        "cost"
+      ],
+      "kind": "multiply",
+      "targets": [
+        "e_out.small",
+        "e_out.medium",
+        "e_out.frontier"
+      ],
+      "effectAssumption": "lever.batching.multiplier",
+      "sources": [
+        {
+          "title": "TokenPowerBench — batch size and FP8 effects on energy per token",
+          "url": "https://arxiv.org/html/2512.03024v1"
+        },
+        {
+          "title": "Spheron (2026) — AI inference power & electricity cost",
+          "url": "https://www.spheron.network/blog/ai-inference-power-electricity-cost-2026"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "fp8",
+      "label": "FP8 quantization",
+      "description": "Energy per token ×0.70–0.77.",
+      "actors": [
+        "provider"
+      ],
+      "metrics": [
+        "energy",
+        "carbon",
+        "water",
+        "cost"
+      ],
+      "kind": "multiply",
+      "targets": [
+        "e_out.small",
+        "e_out.medium",
+        "e_out.frontier"
+      ],
+      "effectAssumption": "lever.fp8.multiplier",
+      "sources": [
+        {
+          "title": "TokenPowerBench — batch size and FP8 effects on energy per token",
+          "url": "https://arxiv.org/html/2512.03024v1"
+        },
+        {
+          "title": "Spheron (2026) — AI inference power & electricity cost",
+          "url": "https://www.spheron.network/blog/ai-inference-power-electricity-cost-2026"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "liquid_cooling",
+      "label": "Lower PUE (liquid cooling)",
+      "description": "PUE → 1.05–1.1.",
+      "actors": [
+        "provider"
+      ],
+      "metrics": [
+        "energy",
+        "carbon",
+        "water",
+        "cost"
+      ],
+      "kind": "set",
+      "targets": [
+        "pue.hyperscale",
+        "tco.pue"
+      ],
+      "effectAssumption": "lever.cooling.pue",
+      "improves": "lower",
+      "sources": [
+        {
+          "title": "Uptime Institute — Global Data Center Survey (PUE)",
+          "url": "https://uptimeinstitute.com/resources/research-and-reports"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "carbon_aware",
+      "label": "Carbon-aware siting / scheduling",
+      "description": "Moves the workload to a cleaner grid region.",
+      "actors": [
+        "provider",
+        "policy"
+      ],
+      "metrics": [
+        "carbon",
+        "water",
+        "cost"
+      ],
+      "kind": "region_switch",
+      "targetRegion": "sweden",
+      "sources": [
+        {
+          "title": "Ember — electricity data explorer (grid carbon intensity)",
+          "url": "https://ember-energy.org/data/electricity-data-explorer/"
+        },
+        {
+          "title": "Electricity Maps",
+          "url": "https://app.electricitymaps.com/"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "longer_lifespan",
+      "label": "Longer GPU lifespan",
+      "description": "Spreads IT capex (and embodied carbon) over more years.",
+      "actors": [
+        "provider"
+      ],
+      "metrics": [
+        "cost",
+        "carbon"
+      ],
+      "kind": "set",
+      "targets": [
+        "tco.lifespan.it"
+      ],
+      "effectAssumption": "lever.lifespan.it_years",
+      "improves": "higher",
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    }
+  ]
+}

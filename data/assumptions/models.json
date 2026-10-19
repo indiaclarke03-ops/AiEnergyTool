@@ -1,0 +1,135 @@
+{
+  "version": "2026-10-19",
+  "modelClasses": [
+    {
+      "key": "small",
+      "label": "Small (<15B params)",
+      "energyAssumption": "e_out.small"
+    },
+    {
+      "key": "medium",
+      "label": "Medium (15–100B)",
+      "energyAssumption": "e_out.medium"
+    },
+    {
+      "key": "frontier",
+      "label": "Frontier (>100B / MoE)",
+      "energyAssumption": "e_out.frontier"
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "e_out.small",
+      "label": "Energy per output token — small model",
+      "unit": "Wh/token",
+      "value": {
+        "low": 0.00003,
+        "central": 0.0001,
+        "high": 0.0003
+      },
+      "boundary": "gpu_only",
+      "notes": "Calibrate against ML.ENERGY / AI Energy Score.",
+      "sources": [
+        {
+          "title": "ML.ENERGY Benchmark & Leaderboard (NeurIPS 2025)",
+          "url": "https://arxiv.org/html/2505.06371v2"
+        },
+        {
+          "title": "Hugging Face AI Energy Score",
+          "url": "https://huggingface.github.io/AIEnergyScore"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "e_out.medium",
+      "label": "Energy per output token — medium model",
+      "unit": "Wh/token",
+      "value": {
+        "low": 0.0001,
+        "central": 0.0003,
+        "high": 0.0008
+      },
+      "boundary": "gpu_only",
+      "notes": "Calibrate.",
+      "sources": [
+        {
+          "title": "ML.ENERGY Benchmark & Leaderboard (NeurIPS 2025)",
+          "url": "https://arxiv.org/html/2505.06371v2"
+        },
+        {
+          "title": "Hugging Face AI Energy Score",
+          "url": "https://huggingface.github.io/AIEnergyScore"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "e_out.frontier",
+      "label": "Energy per output token — frontier model",
+      "unit": "Wh/token",
+      "value": {
+        "low": 0.0002,
+        "central": 0.0005,
+        "high": 0.0015
+      },
+      "boundary": "gpu_only",
+      "notes": "Calibrated so a ~500-token facility-boundary query lands at 0.2–0.5 Wh (Google 0.24 Wh, Epoch ~0.3 Wh, Altman 0.34 Wh).",
+      "sources": [
+        {
+          "title": "Google (Aug 2025) Gemini per-prompt measurement, summarized by Hannah Ritchie",
+          "url": "https://hannahritchie.substack.com/p/ai-footprint-august-2025"
+        },
+        {
+          "title": "Joule (2026) — Energy use of AI inference, efficiency pathways, and test-time scaling",
+          "url": "https://www.sciencedirect.com/science/article/pii/S2542435126001145"
+        },
+        {
+          "title": "Projet Celsius (2026) — comparison of per-query estimates",
+          "url": "https://projetcelsius.com/en/blog/chatgpt-query-energy-consumption"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "prefill_ratio",
+      "label": "Prefill (input) token cost relative to output token",
+      "unit": "ratio",
+      "value": {
+        "low": 0.03,
+        "central": 0.1,
+        "high": 0.25
+      },
+      "notes": "Prefill is compute-bound but parallel.",
+      "sources": [
+        {
+          "title": "ML.ENERGY Benchmark & Leaderboard (NeurIPS 2025)",
+          "url": "https://arxiv.org/html/2505.06371v2"
+        },
+        {
+          "title": "TokenPowerBench — batch size and FP8 effects on energy per token",
+          "url": "https://arxiv.org/html/2512.03024v1"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "reasoning_multiplier",
+      "label": "Hidden reasoning tokens per visible output token",
+      "unit": "ratio",
+      "value": {
+        "low": 3,
+        "central": 8,
+        "high": 20
+      },
+      "notes": "Used only when reasoning is on and reasoning tokens are unknown.",
+      "sources": [
+        {
+          "title": "Joule (2026) — Energy use of AI inference, efficiency pathways, and test-time scaling",
+          "url": "https://www.sciencedirect.com/science/article/pii/S2542435126001145"
+        }
+      ],
+      "verified": false
+    }
+  ]
+}
