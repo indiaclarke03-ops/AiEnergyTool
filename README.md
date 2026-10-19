@@ -1,5 +1,9 @@
 # AI Energy & Cost Lens
 
+**▶ Live tool: https://indiaclarke03-ops.github.io/AiEnergyTool/**
+
+_The hosted version runs entirely in your browser: saved receipts stay in your browser's storage. Metered chat needs the local proxy (see below), so it only works when you run the tool yourself._
+
 A research tool that estimates the energy, carbon, water and cost of AI usage, per query and across a full data center. Built for the Ethical Tech CoLab research project.
 
 > **Research question.** Energy is a small share of an AI provider's total cost but a large share of its external impact (grid, carbon, water). How large is that gap, what drives it, and which efficiency levers move which metric?
@@ -17,7 +21,7 @@ Every number is an **estimate with a range** (low / central / high), labeled wit
 | M5 Metered chat mode | ✅ done |
 | M6 Extensions | later |
 
-## Run
+## Run locally
 
 Requires Node 20+.
 
@@ -50,6 +54,10 @@ API keys stay in `.env` on the proxy and never reach the browser. `.env` is git-
 - **Cost Stack** (`#/costStack`): models the TCO of an AI data center, with sliders for every §6.3 parameter and three presets. Charts: a waterfall, the cost mix, a Sankey down to $/M tokens, and cost vs utilization. It also has the headline twin bars (energy's share of cost vs its share of externalities), a drill-down from facility to token, and an optional API-price comparison.
 - **Research Dashboard** (`#/analytics`): a filterable table of saved receipts; small multiples comparing model classes and regions; a tornado sensitivity chart and Monte Carlo histogram for any output; a manager for saving and comparing up to 4 scenarios; an editable disclosure tracker; and CSV/JSON exports plus a methodology-snapshot bundle
 - **Assumptions** (`#/assumptions`): every assumption, searchable, with session overrides that can be edited in place
+
+## Deployment
+
+Every push to `main` runs the unit tests, builds the app and publishes it to GitHub Pages (`.github/workflows/deploy.yml`).
 
 ## Layout
 

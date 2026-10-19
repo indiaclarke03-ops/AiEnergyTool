@@ -4,6 +4,8 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
+  // GitHub Pages serves the app under /AiEnergyTool/ (set in the deploy workflow).
+  base: process.env.BASE_PATH ?? "/",
   plugins: [react(), tailwindcss()],
   // Metered chat (M5): forward /api to the local proxy (npm run server).
   server: { proxy: { "/api": "http://127.0.0.1:8787" } },
