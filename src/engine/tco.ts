@@ -17,14 +17,16 @@ export type TcoParams = {
 export type TcoResult = {
   annualCapex: { servers: number; facility: number; network: number; land: number; utility: number };
   annualCapexTotal: number;
+  /** IT energy (before PUE). Tokens served scale with this, not with facility energy. */
+  annualITKWh: number;
   annualEnergyKWh: number;
   annualEnergyCost: number;
   otherOpex: TcoParams["opex"];
   otherOpexTotal: number;
   annualTCO: number;
   energyShare: number;
-  /** Everything except electricity, per kWh of facility energy. Used by the A↔B link. */
-  nonEnergyCostPerKWh: number;
+  /** Everything except electricity, per kWh of IT energy. Used by the A↔B link. */
+  nonEnergyCostPerITKWh: number;
 };
 
 export function tcoParamsFromValues(v: Values): TcoParams {
@@ -74,7 +76,8 @@ export function computeTco(p: TcoParams): TcoResult {
   };
   const annualCapexTotal = Object.values(annualCapex).reduce((s, x) => s + x, 0);
 
-  const annualEnergyKWh = p.capacityMW * 1000 * HOURS_PER_YEAR * p.utilization * p.pue;
+  const annualITKWh = p.capacityMW * 1000 * HOURS_PER_YEAR * p.utilization;
+  const annualEnergyKWh = annualITKWh * p.pue;
   const annualEnergyCost = annualEnergyKWh * p.electricityPrice;
   const otherOpexTotal = Object.values(p.opex).reduce((s, x) => s + x, 0);
   const annualTCO = annualCapexTotal + annualEnergyCost + otherOpexTotal;
@@ -82,13 +85,14 @@ export function computeTco(p: TcoParams): TcoResult {
   return {
     annualCapex,
     annualCapexTotal,
+    annualITKWh,
     annualEnergyKWh,
     annualEnergyCost,
     otherOpex: p.opex,
     otherOpexTotal,
     annualTCO,
     energyShare: annualEnergyCost / annualTCO,
-    nonEnergyCostPerKWh: (annualCapexTotal + otherOpexTotal) / annualEnergyKWh,
+    nonEnergyCostPerITKWh: (annualCapexTotal + otherOpexTotal) / annualITKWh,
   };
 }
 

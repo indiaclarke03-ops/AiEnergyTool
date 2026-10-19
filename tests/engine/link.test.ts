@@ -28,6 +28,12 @@ describe("A ↔ B link (§6.4)", () => {
     expect(p.fullCostUsd).toBeCloseTo((p.energy.tokenEquivalents * c.costPerMTokFull) / 1e6, 9);
   });
 
+  it("per-query full cost does not depend on the Module B PUE", () => {
+    const a = impactsAtPoint(query(), v, { includeEmbodied: false }).fullCostUsd;
+    const b = impactsAtPoint(query(), { ...v, "tco.pue": 1.05 }, { includeEmbodied: false }).fullCostUsd;
+    expect(b).toBeCloseTo(a, 12);
+  });
+
   it("price/cost ratio", () => {
     const c = costPerToken(tco, "frontier", v);
     expect(priceToCostRatio(c.costPerMTokFull * 2, c)).toBeCloseTo(2);

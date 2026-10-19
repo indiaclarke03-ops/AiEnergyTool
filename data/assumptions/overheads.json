@@ -110,6 +110,42 @@
         }
       ],
       "verified": false
+    },
+    {
+      "id": "compare.microwave_w",
+      "label": "Microwave oven power (everyday comparison)",
+      "unit": "W",
+      "value": {
+        "low": 800,
+        "central": 1000,
+        "high": 1200
+      },
+      "sources": [
+        {
+          "title": "US DOE Energy Saver — appliance energy use",
+          "url": "https://www.energy.gov/energysaver/estimating-appliance-and-home-electronic-energy-use"
+        }
+      ],
+      "verified": false,
+      "notes": "Used only for the everyday comparison on the receipt."
+    },
+    {
+      "id": "compare.us_home_kwh_yr",
+      "label": "Average US household electricity use",
+      "unit": "kWh/yr",
+      "value": {
+        "low": 10000,
+        "central": 10500,
+        "high": 11000
+      },
+      "sources": [
+        {
+          "title": "US EIA — How much electricity does an American home use?",
+          "url": "https://www.eia.gov/tools/faqs/faq.php?id=97&t=3"
+        }
+      ],
+      "verified": false,
+      "notes": "Used only for aggregate comparisons."
     }
   ]
 }

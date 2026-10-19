@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  /* Okabe–Ito colour-blind-safe palette, used for boundaries and chart series. */
+  --color-cb-blue: #0072b2;
+  --color-cb-orange: #e69f00;
+  --color-cb-green: #009e73;
+  --color-cb-purple: #cc79a7;
+  --color-cb-sky: #56b4e9;
+  --color-cb-vermillion: #d55e00;
+  --color-cb-yellow: #f0e442;
+}
+
+body {
+  @apply bg-stone-50 text-stone-900;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-cb-blue);
+  outline-offset: 2px;
+}
+
+input[type="range"] {
+  accent-color: var(--color-cb-blue);
+}

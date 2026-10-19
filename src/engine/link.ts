@@ -1,6 +1,6 @@
 // Linking Module A ↔ Module B: cost per token (spec §6.4) and the cost-vs-externality headline.
 import { get } from "./assumptions";
-import { facilityWhPerToken } from "./queryEnergy";
+import { facilityWhPerToken, itWhPerToken } from "./queryEnergy";
 import { gridId } from "./impacts";
 import type { TcoResult } from "./tco";
 import type { ModelClass, Values } from "./types";
@@ -13,10 +13,10 @@ export type CostPerToken = {
 };
 
 export function costPerToken(tco: TcoResult, modelClass: ModelClass, v: Values): CostPerToken {
-  const whPerToken = facilityWhPerToken(modelClass, v);
-  const tokensPerYear = (tco.annualEnergyKWh * 1000) / whPerToken;
+  // Tokens served scale with IT energy; equals spec §6.4 (facility kWh ÷ facility Wh/token) when PUEs match.
+  const tokensPerYear = (tco.annualITKWh * 1000) / itWhPerToken(modelClass, v);
   return {
-    facilityWhPerToken: whPerToken,
+    facilityWhPerToken: facilityWhPerToken(modelClass, v),
     tokensPerYear,
     costPerMTokFull: (tco.annualTCO / tokensPerYear) * 1e6,
     costPerMTokEnergy: (tco.annualEnergyCost / tokensPerYear) * 1e6,

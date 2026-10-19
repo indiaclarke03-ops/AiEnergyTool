@@ -43,6 +43,11 @@ export function energyAtBoundary(e: QueryEnergy, boundary: QueryInput["boundary"
   }
 }
 
+/** IT-load energy for a single output token of this model class. */
+export function itWhPerToken(modelClass: ModelClass, v: Values): number {
+  return get(v, energyPerTokenId(modelClass)) * get(v, "server_overhead");
+}
+
 /** Facility-boundary energy for a single output token of this model class (used by the A↔B link). */
 export function facilityWhPerToken(modelClass: ModelClass, v: Values): number {
   return get(v, energyPerTokenId(modelClass)) * get(v, "server_overhead") * get(v, "pue.hyperscale");

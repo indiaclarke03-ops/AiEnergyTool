@@ -39,3 +39,26 @@ export function estimateQuery(input: QueryInput, set: AssumptionSet, opts: Estim
     assumptionsUsed: [...t.used].sort(),
   };
 }
+
+/**
+ * Fractional change in each metric from applying each lever on its own (central values).
+ * Negative = reduction. Used for "What would change this?" and the per-line provider lever.
+ */
+export function leverEffects(
+  input: QueryInput,
+  set: AssumptionSet,
+  opts: ImpactOptions,
+  levers: Lever[],
+): Record<string, Record<MetricKey, number>> {
+  const v = valuesAt(set, "central");
+  const base = queryMetricsAtPoint(input, v, opts);
+  const out: Record<string, Record<MetricKey, number>> = {};
+  for (const l of levers) {
+    const after = queryMetricsAtPoint(input, v, { ...opts, levers: [l] });
+    out[l.id] = Object.fromEntries(METRICS.map((k) => [k, base[k] === 0 ? 0 : (after[k] - base[k]) / base[k]])) as Record<MetricKey, number>;
+  }
+  return out;
+}
+
+export { METRICS as QUERY_METRICS };
+export type { MetricKey as QueryMetric };

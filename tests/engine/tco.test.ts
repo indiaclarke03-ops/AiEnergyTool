@@ -31,6 +31,6 @@ describe("TCO sanity (§6.3)", () => {
 
   it("lower utilization raises non-energy cost per kWh", () => {
     const p = tcoParamsFromValues(v);
-    expect(computeTco({ ...p, utilization: 0.3 }).nonEnergyCostPerKWh).toBeGreaterThan(computeTco(p).nonEnergyCostPerKWh * 2);
+    expect(computeTco({ ...p, utilization: 0.3 }).nonEnergyCostPerITKWh).toBeGreaterThan(computeTco(p).nonEnergyCostPerITKWh * 2);
   });
 });

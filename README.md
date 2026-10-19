@@ -11,7 +11,7 @@ Every number is an **estimate with a range** (low / central / high), labeled wit
 | Milestone | State |
 |---|---|
 | M1 Engine + assumptions | ✅ done |
-| M2 Receipt page | ⏳ |
+| M2 Receipt page + Assumptions browser | ✅ done |
 | M3 Cost Stack Explorer | ⏳ |
 | M4 Analytics dashboard | ⏳ |
 | M5 Metered chat mode | ⏳ |
@@ -23,14 +23,28 @@ Requires Node 20+.
 
 ```bash
 npm install
+npm run dev       # app at http://localhost:5173
 npm test          # engine unit + calibration tests (Vitest)
 npm run typecheck
+npx playwright install chromium   # once
+npm run test:e2e  # Playwright smoke test per page
 ```
+
+Everything runs locally. Saved receipts live in your browser's IndexedDB; nothing is sent anywhere.
+
+## Pages
+
+- **AI Receipt** (`#/receipt`): estimates a single query. Tokens are entered by hand or counted from a pasted conversation; it then shows ranges, boundaries and sources, an at-scale view, and levers grouped by who controls them.
+- **Cost Stack** (`#/costStack`): M3
+- **Research Dashboard** (`#/analytics`): M4
+- **Assumptions** (`#/assumptions`): every assumption, searchable, with session overrides that can be edited in place
 
 ## Layout
 
 - `data/assumptions/*.json`: every numeric assumption, each with a source, range and verification flag
 - `src/engine/`: the pure TypeScript estimation engine (no UI dependencies), reusable for a later browser extension
+- `src/features/`, `src/components/`, `src/store/`, `src/db/`: the React UI, Zustand store and Dexie (IndexedDB) schema
 - `tests/engine/`: unit, calibration and sanity tests
+- `tests/e2e/`: Playwright smoke tests
 - `docs/METHODOLOGY.md`: formulas, calibration results, deviations from the spec, and known limitations
 - `docs/SOURCES.md`: the bibliography

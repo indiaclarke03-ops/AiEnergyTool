@@ -1,6 +1,6 @@
 # Methodology
 
-*Maintained alongside `src/engine/`. Last updated at milestone M1 (2026-10-19). Assumption file version: `2026-10-19`.*
+*Maintained alongside `src/engine/`. Last updated at milestone M2 (2026-10-19). Assumption file version: `2026-10-19`.*
 
 All outputs are **estimates**. Every numeric input is an assumption in `data/assumptions/*.json` with a low / central / high range, a source list and a `verified` flag. All seed values are currently **unverified**.
 
@@ -64,15 +64,18 @@ With these defaults the engine gives **annual TCO $8.48B** (Epoch: ~$8.5B), annu
 ## 5. Linking A ↔ B (`link.ts`)
 
 ```
-facilityWhPerToken  = e_out[modelClass] × server_overhead × pue.hyperscale
-tokensPerYear       = annualEnergyKWh × 1000 / facilityWhPerToken
+itWhPerToken        = e_out[modelClass] × server_overhead
+annualITKWh         = capacity_kW × 8760 × utilization          # before PUE
+tokensPerYear       = annualITKWh × 1000 / itWhPerToken
 costPerMTok_full    = annualTCO / tokensPerYear × 1e6
 costPerMTok_energy  = annualEnergyCost / tokensPerYear × 1e6
 ```
 
 **Per-query full cost** is computed as
-`E_facility_kWh × (annualCapex + otherOpex) / annualEnergyKWh + energyCost(region)`.
-In other words, the hardware, facility and labor cost per kWh from Module B is added to the query's own regional electricity cost. This equals `tokenEquivalents × costPerToken_full` from the spec whenever the Module A and Module B PUE and electricity price match (a test checks this). It keeps the full-cost line consistent with the electricity-cost line shown above it.
+`E_it_kWh × (annualCapex + otherOpex) / annualITKWh + energyCost(region)`.
+In other words, the hardware, facility and labor cost per **IT** kWh from Module B is added to the query's own regional electricity cost. This equals `tokenEquivalents × costPerToken_full` from the spec whenever the Module A and Module B PUE and electricity price match (a test checks this). It keeps the full-cost line consistent with the electricity-cost line shown above it.
+
+**Change in M2:** the spec allocates by facility energy (`annualEnergyKWh / facilityWhPerToken`). That meant lowering PUE (liquid cooling) *raised* the per-query full cost, because the same fixed costs were spread over fewer facility kWh. Tokens served depend on IT energy, not on cooling overhead, so the allocation now uses IT energy. The result is identical when the two PUEs match. A PUE change now moves only the electricity line, and a test checks this.
 
 ### Headline: cost share vs externality share
 
@@ -114,7 +117,16 @@ Other figures from the current defaults:
 - Frontier 500-token query in US-East: ~0.17 gCO₂e and ~1.4 mL water. Google reports 0.03 g and 0.26 mL, but on a market-based carbon accounting and an on-site-only water boundary. The tool uses location-based grid intensity and includes off-site water from electricity generation, so its figures are higher. This boundary difference needs to be shown in the UI.
 - Implied cost per million tokens (Epoch facility): **small $0.21, medium $0.64, frontier $1.07** (full); energy-only is ~7% of each. These sit well below public API prices, which suggests either large margins or that the `e_out` values imply higher throughput than real serving achieves. Worth investigating.
 
-## 9. Known limitations
+## 9. UI conventions (M2)
+
+- The **Receipt** shows each line with its Monte Carlo range (p5–p95), a boundary badge (colour + glyph + text) and a source button listing every assumption behind it, with an unverified-flag count.
+- Each per-query line also shows the **aggregate** at the Scale panel's volume (default 100M queries/day) and the **single provider-side lever** with the largest reduction for that metric (spec §2, rule 3).
+- Lever percentages in the levers panel are each lever **on its own** at central values. Ticked levers stack into the receipt's full Monte Carlo estimate.
+- Everyday comparisons (microwave seconds, US-home equivalents) use sourced assumptions `compare.*` in `overheads.json`.
+- Paste mode counts tokens with js-tiktoken `o200k_base` and is labelled approximate for non-OpenAI models.
+- Saved receipts store the input, active levers, estimate, assumption-file versions and any session overrides, so each one is reproducible.
+
+## 10. Known limitations
 
 - Proprietary model sizes and serving setups are unknown, so the model-class approach is a deliberate simplification.
 - Token counts for non-OpenAI models are approximate unless metered chat mode (M5) is used.

@@ -39,6 +39,10 @@ describe("levers (§6.6)", () => {
     expect(after.fullCostUsd).toBeLessThan(base.fullCostUsd);
   });
 
+  it("liquid cooling never raises full cost", () => {
+    expect(run(["liquid_cooling"]).fullCostUsd).toBeLessThanOrEqual(run([]).fullCostUsd);
+  });
+
   it("levers stack multiplicatively", () => {
     const ratio = run(["fp8", "batching"]).energyWh / run([]).energyWh;
     expect(ratio).toBeCloseTo(0.735 * 0.35, 3);
