@@ -1,6 +1,6 @@
 # Methodology
 
-*Maintained alongside `src/engine/`. Last updated at milestone M3 (2026-10-19). Assumption file version: `2026-10-19`.*
+*Maintained alongside `src/engine/`. Last updated at milestone M4 (2026-10-19). Assumption file version: `2026-10-19`.*
 
 All outputs are **estimates**. Every numeric input is an assumption in `data/assumptions/*.json` with a low / central / high range, a source list and a `verified` flag. All seed values are currently **unverified**.
 
@@ -137,7 +137,16 @@ Other figures from the current defaults:
 - **Cost per M tokens vs utilization**: the full cost falls roughly as 1/utilization, because fixed capex and opex are spread over more tokens. The energy-only cost is flat, because tokens and energy both scale with utilization.
 - **Price ÷ cost**: compares a public $/M-token price with the estimated full cost for *output* tokens of the selected model class. API prices bundle R&D, training and margin, so a ratio above 1 is not pure profit.
 
-## 11. Known limitations
+## 11. Research Dashboard (M4)
+
+- **Comparisons** re-run the current Receipt query for every model class and every region (Monte Carlo, N = 1,500 each) and show central bars with p5–p95 whiskers. Each metric panel has its own scale.
+- **Sensitivity** uses `tornado()` (§7) on the selected output and shows the 12 assumptions with the largest swing. Bars are drawn as deltas from the baseline, with the axis labelled in absolute values. Unverified assumptions are marked ⚠.
+- **Uncertainty** runs a 5,000-sample Monte Carlo of the selected output and shows the histogram with p5 / p50 / p95 marked.
+- **Scenarios** store only Module B overrides (`tco.*`, `ext.*`) plus the region and model class. Comparisons recompute central values and run a 1,000-sample Monte Carlo for each scenario.
+- **Disclosure tracker** is seeded from `data/disclosures_seed.json`. An unknown is written as "not found", never "none". Seed rows are unverified.
+- **Methodology snapshot** is a JSON bundle containing the assumption-file versions, session overrides, the full effective assumption set, levers, presets, and all sessions, receipts, scenarios and disclosures. With the repo at the same commit, it is enough to reproduce every saved number.
+
+## 12. Known limitations
 
 - Proprietary model sizes and serving setups are unknown, so the model-class approach is a deliberate simplification.
 - Token counts for non-OpenAI models are approximate unless metered chat mode (M5) is used.

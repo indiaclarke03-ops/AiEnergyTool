@@ -71,3 +71,12 @@ export async function newSession(name?: string): Promise<SessionRow & { id: numb
   const id = await db.sessions.add(row);
   return { ...row, id: id as number };
 }
+
+import seed from "../../data/disclosures_seed.json";
+
+/** Seed the disclosure tracker once, on first use. */
+export async function ensureDisclosuresSeeded(): Promise<void> {
+  await db.transaction("rw", db.disclosures, async () => {
+    if ((await db.disclosures.count()) === 0) await db.disclosures.bulkAdd(seed.rows);
+  });
+}

@@ -1,0 +1,65 @@
+{
+  "note": "Seed rows for the disclosure tracker. Unknowns are 'not found' (we did not find a disclosure), never 'none'. All rows need checking by the research team.",
+  "rows": [
+    {
+      "provider": "Google",
+      "perQueryEnergy": "Yes — median Gemini Apps text prompt 0.24 Wh",
+      "water": "Yes — 0.26 mL per median prompt",
+      "methodology": "Yes — technical paper (Aug 2025)",
+      "boundary": "Comprehensive serving: accelerators, host CPU/RAM, idle capacity, data-center overhead (PUE); carbon market-based",
+      "date": "2025-08",
+      "link": "https://cloud.google.com/blog/products/infrastructure/measuring-the-environmental-impact-of-ai-inference",
+      "notes": "Also 0.03 gCO2e per prompt. Seed row — verify."
+    },
+    {
+      "provider": "OpenAI",
+      "perQueryEnergy": "Statement only — ~0.34 Wh per average ChatGPT query",
+      "water": "Statement only — ~0.000085 gallons (~0.32 mL) per query",
+      "methodology": "not found",
+      "boundary": "not found",
+      "date": "2025-06",
+      "link": "https://blog.samaltman.com/the-gentle-singularity",
+      "notes": "Blog statement by the CEO, no methodology published. Seed row — verify."
+    },
+    {
+      "provider": "Mistral AI",
+      "perQueryEnergy": "not found (carbon and water given instead)",
+      "water": "Yes — ~45 mL per 400-token response (lifecycle)",
+      "methodology": "Yes — lifecycle analysis of Mistral Large 2",
+      "boundary": "Lifecycle (training + inference + hardware manufacturing)",
+      "date": "2025-07",
+      "link": "https://mistral.ai/news/our-contribution-to-a-global-environmental-standard-for-ai",
+      "notes": "~1.14 gCO2e per 400-token response. Seed row — verify."
+    },
+    {
+      "provider": "Microsoft",
+      "perQueryEnergy": "not found",
+      "water": "not found (company-wide totals only)",
+      "methodology": "not found (per query)",
+      "boundary": "Corporate annual totals",
+      "date": "",
+      "link": "https://www.microsoft.com/en-us/corporate-responsibility/sustainability/report",
+      "notes": "Annual environmental sustainability report. Seed row — verify."
+    },
+    {
+      "provider": "Anthropic",
+      "perQueryEnergy": "not found",
+      "water": "not found",
+      "methodology": "not found",
+      "boundary": "not found",
+      "date": "",
+      "link": "https://www.anthropic.com",
+      "notes": "To be researched. Seed row — verify."
+    },
+    {
+      "provider": "Meta",
+      "perQueryEnergy": "not found",
+      "water": "not found",
+      "methodology": "Partial — Llama model cards report training emissions",
+      "boundary": "Training only (model cards)",
+      "date": "",
+      "link": "https://github.com/meta-llama/llama-models",
+      "notes": "Inference figures not found. Seed row — verify."
+    }
+  ]
+}
