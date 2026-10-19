@@ -1,6 +1,6 @@
 # Methodology
 
-*Maintained alongside `src/engine/`. Last updated at milestone M4 (2026-10-19). Assumption file version: `2026-10-19`.*
+*Maintained alongside `src/engine/`. Last updated at milestone M5 (2026-10-19). Assumption file version: `2026-10-19`.*
 
 All outputs are **estimates**. Every numeric input is an assumption in `data/assumptions/*.json` with a low / central / high range, a source list and a `verified` flag. All seed values are currently **unverified**.
 
@@ -146,7 +146,22 @@ Other figures from the current defaults:
 - **Disclosure tracker** is seeded from `data/disclosures_seed.json`. An unknown is written as "not found", never "none". Seed rows are unverified.
 - **Methodology snapshot** is a JSON bundle containing the assumption-file versions, session overrides, the full effective assumption set, levers, presets, and all sessions, receipts, scenarios and disclosures. With the repo at the same commit, it is enough to reproduce every saved number.
 
-## 12. Known limitations
+## 12. Metered chat (M5)
+
+The proxy (`server/index.ts`) forwards a conversation to the provider and normalises `usage` (`server/usage.ts`):
+
+| Provider | input tokens | visible output | reasoning |
+|---|---|---|---|
+| OpenAI-compatible | `prompt_tokens` | `completion_tokens − reasoning_tokens` | `completion_tokens_details.reasoning_tokens` (undefined if not reported) |
+| Anthropic | `input_tokens + cache_creation_input_tokens + cache_read_input_tokens` | `output_tokens − thinking_tokens` | `output_tokens_details.thinking_tokens` |
+
+- Cached input tokens are counted in full. Cache reads probably use less prefill compute, but the engine does not yet discount them; this is a known limitation.
+- The receipt reflects the **last API call**. Every turn re-sends the conversation history, so input tokens grow turn by turn, and that is real compute. The chat panel shows running totals for the whole conversation.
+- When the provider reports reasoning tokens, they replace the `reasoning_multiplier` estimate.
+- **Token counts are exact; energy per token is not.** The model class is still the user's estimate, because providers don't publish model size or serving setup.
+- If an Anthropic request is declined and served by a fallback model, the response names the model that served it. Declined requests still processed tokens, and those tokens are counted.
+
+## 13. Known limitations
 
 - Proprietary model sizes and serving setups are unknown, so the model-class approach is a deliberate simplification.
 - Token counts for non-OpenAI models are approximate unless metered chat mode (M5) is used.

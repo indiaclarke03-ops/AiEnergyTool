@@ -88,6 +88,7 @@ export function ReceiptCard({
           {query.inputTokens.toLocaleString()} in · {query.outputTokens.toLocaleString()} out
           {query.reasoning && ` · ${query.reasoningTokens !== undefined ? query.reasoningTokens.toLocaleString() : "est."} reasoning`}
           {tokenSource === "paste" && " · approx. count"}
+          {tokenSource === "metered" && " · exact (metered)"}
         </p>
         {activeLevers.length > 0 && <p className="mt-1 text-xs text-cb-blue">with {activeLevers.length} lever{activeLevers.length > 1 && "s"} applied</p>}
       </div>

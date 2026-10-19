@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ModelClass, QueryBoundary } from "../../engine";
 import { useAppStore, useAssumptions } from "../../store/useAppStore";
+import { MeteredChat } from "./MeteredChat";
 import { countTokens } from "./tokenize";
 
 const field = "w-full rounded border border-stone-300 bg-white px-2 py-1.5 text-sm";
@@ -79,11 +80,7 @@ export function InputPanel() {
       <div className="pt-3">
         {tokenSource === "manual" && <ManualTokens />}
         {tokenSource === "paste" && <PasteTokens />}
-        {tokenSource === "metered" && (
-          <p className="text-sm text-stone-500">
-            Metered chat (milestone M5) will route a conversation through a local API proxy and use the exact <code>usage</code> token counts returned by the provider.
-          </p>
-        )}
+        {tokenSource === "metered" && <MeteredChat />}
       </div>
     </section>
   );
