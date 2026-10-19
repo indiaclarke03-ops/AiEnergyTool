@@ -10,7 +10,7 @@ export type TcoParams = {
   electricityPrice: number;
   utilization: number;
   pue: number;
-  opex: { taxes: number; maintenance: number; labor: number; water: number };
+  opex: { taxes: number; maintenance: number; labor: number; water: number; colocation: number };
   costOfCapital: number;
 };
 
@@ -49,6 +49,7 @@ export function tcoParamsFromValues(v: Values): TcoParams {
       maintenance: get(v, "tco.opex.maintenance"),
       labor: get(v, "tco.opex.labor"),
       water: get(v, "tco.opex.water"),
+      colocation: get(v, "tco.opex.colocation"),
     },
     costOfCapital: get(v, "tco.cost_of_capital"),
   };

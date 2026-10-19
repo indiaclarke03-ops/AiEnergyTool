@@ -44,6 +44,16 @@ export type Lever = {
   verified: boolean;
 };
 
+/** A named Module B configuration: central values for a subset of tco.* assumptions. */
+export type TcoPreset = {
+  id: string;
+  label: string;
+  description: string;
+  values: Record<string, number>;
+  sources: Source[];
+  verified: boolean;
+};
+
 /** Every assumption file loaded and validated, keyed by id. */
 export type AssumptionSet = {
   versions: Record<string, string>;
@@ -51,6 +61,7 @@ export type AssumptionSet = {
   modelClasses: ModelClassInfo[];
   regions: Region[];
   levers: Lever[];
+  tcoPresets: TcoPreset[];
 };
 
 /** A single point drawn from the assumption ranges (central, low, high, or a Monte Carlo sample). */

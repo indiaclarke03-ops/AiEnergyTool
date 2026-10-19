@@ -268,6 +268,24 @@
       "verified": false
     },
     {
+      "id": "tco.opex.colocation",
+      "label": "Colocation rent (tenant pays instead of facility capex)",
+      "unit": "$/yr",
+      "value": {
+        "low": 0,
+        "central": 0,
+        "high": 0
+      },
+      "sources": [
+        {
+          "title": "CBRE — North America Data Center Trends (colocation pricing)",
+          "url": "https://www.cbre.com/insights/reports/north-american-data-center-trends-h1-2025"
+        }
+      ],
+      "verified": false,
+      "notes": "0 for an owner-operated facility. The Colocation tenant preset sets this from a wholesale rate of roughly $150/kW-month (placeholder)."
+    },
+    {
       "id": "tco.cost_of_capital",
       "label": "Cost of capital (discount rate)",
       "unit": "fraction/yr",
@@ -359,6 +377,77 @@
         {
           "title": "Placeholder — to be sourced (water scarcity valuation)",
           "url": "https://www.oecd.org/en/topics/water.html"
+        }
+      ],
+      "verified": false
+    }
+  ],
+  "presets": [
+    {
+      "id": "epoch",
+      "label": "Epoch 1 GW reference",
+      "description": "Epoch AI (May 2026) stylized US hyperscaler facility. These are the file defaults.",
+      "values": {},
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "h100",
+      "label": "Meta-style H100 cluster",
+      "description": "Illustrative ~100 MW H100 training/inference cluster, straight-line depreciation, tuned towards ITK/SemiAnalysis shares (GPUs ~46% of TCO, electricity ~9%).",
+      "values": {
+        "tco.capacity_mw": 100,
+        "tco.capex.servers": 2200000000,
+        "tco.capex.network": 440000000,
+        "tco.capex.facility": 1100000000,
+        "tco.capex.land": 20000000,
+        "tco.capex.utility": 20000000,
+        "tco.lifespan.it": 5,
+        "tco.lifespan.facility": 14,
+        "tco.electricity_price": 0.075,
+        "tco.utilization": 0.85,
+        "tco.pue": 1.3,
+        "tco.opex.taxes": 14000000,
+        "tco.opex.maintenance": 12000000,
+        "tco.opex.labor": 6000000,
+        "tco.opex.water": 600000,
+        "tco.opex.colocation": 0,
+        "tco.cost_of_capital": 0
+      },
+      "sources": [
+        {
+          "title": "ITK Research — Data centre operating cost structures",
+          "url": "https://itkservices3.com/background/datacentre_opex"
+        }
+      ],
+      "verified": false
+    },
+    {
+      "id": "colo",
+      "label": "Colocation tenant",
+      "description": "Same IT fleet as the Epoch reference, but the tenant rents space and power capacity instead of building: no facility/land/utility capex, a colocation rent, and electricity passed through at a markup.",
+      "values": {
+        "tco.capex.facility": 0,
+        "tco.capex.land": 0,
+        "tco.capex.utility": 0,
+        "tco.opex.colocation": 1800000000,
+        "tco.electricity_price": 0.095,
+        "tco.opex.taxes": 100000000,
+        "tco.opex.maintenance": 60000000
+      },
+      "sources": [
+        {
+          "title": "Epoch AI (May 2026) — Total cost of ownership of a one-gigawatt AI data center",
+          "url": "https://epoch.ai/data-insights/ai-datacenter-cost-breakdown"
+        },
+        {
+          "title": "CBRE — North America Data Center Trends (colocation pricing)",
+          "url": "https://www.cbre.com/insights/reports/north-american-data-center-trends-h1-2025"
         }
       ],
       "verified": false

@@ -12,7 +12,7 @@ Every number is an **estimate with a range** (low / central / high), labeled wit
 |---|---|
 | M1 Engine + assumptions | ✅ done |
 | M2 Receipt page + Assumptions browser | ✅ done |
-| M3 Cost Stack Explorer | ⏳ |
+| M3 Cost Stack Explorer | ✅ done |
 | M4 Analytics dashboard | ⏳ |
 | M5 Metered chat mode | ⏳ |
 | M6 Extensions | later |
@@ -35,7 +35,7 @@ Everything runs locally. Saved receipts live in your browser's IndexedDB; nothin
 ## Pages
 
 - **AI Receipt** (`#/receipt`): estimates a single query. Tokens are entered by hand or counted from a pasted conversation; it then shows ranges, boundaries and sources, an at-scale view, and levers grouped by who controls them.
-- **Cost Stack** (`#/costStack`): M3
+- **Cost Stack** (`#/costStack`): models the TCO of an AI data center, with sliders for every §6.3 parameter and three presets. Charts: a waterfall, the cost mix, a Sankey down to $/M tokens, and cost vs utilization. It also has the headline twin bars (energy's share of cost vs its share of externalities), a drill-down from facility to token, and an optional API-price comparison.
 - **Research Dashboard** (`#/analytics`): M4
 - **Assumptions** (`#/assumptions`): every assumption, searchable, with session overrides that can be edited in place
 

@@ -1,6 +1,6 @@
 # Methodology
 
-*Maintained alongside `src/engine/`. Last updated at milestone M2 (2026-10-19). Assumption file version: `2026-10-19`.*
+*Maintained alongside `src/engine/`. Last updated at milestone M3 (2026-10-19). Assumption file version: `2026-10-19`.*
 
 All outputs are **estimates**. Every numeric input is an assumption in `data/assumptions/*.json` with a low / central / high range, a source list and a `verified` flag. All seed values are currently **unverified**.
 
@@ -126,7 +126,18 @@ Other figures from the current defaults:
 - Paste mode counts tokens with js-tiktoken `o200k_base` and is labelled approximate for non-OpenAI models.
 - Saved receipts store the input, active levers, estimate, assumption-file versions and any session overrides, so each one is reproducible.
 
-## 10. Known limitations
+## 10. Cost Stack Explorer (M3)
+
+- **Sliders** set the *central* value of a `tco.*` (or `ext.*`) assumption. The low/high range is rescaled by the same factor, so each assumption keeps its relative uncertainty (`recenter()`). Slider edits are session overrides, the same ones the Assumptions page shows, so the Receipt's full-cost line uses them as well.
+- **Presets** live in `datacenter_tco.json → presets`:
+  - *Epoch 1 GW reference*: the file defaults.
+  - *Meta-style H100 cluster*: an illustrative ~100 MW cluster with straight-line depreciation, tuned towards ITK/SemiAnalysis shares. The engine gives a TCO of about $0.71B/yr, an energy share of ~10% (ITK: ~9%) and servers at ~62% of TCO (ITK: GPUs alone ~46%).
+  - *Colocation tenant*: no facility, land or utility capex. It pays a colocation rent (`tco.opex.colocation`, ~$150/kW-month placeholder) and electricity passed through at $0.095/kWh.
+- **Headline twin bars**: energy share of cost (`energyShare`) vs energy share of priced externalities (`facilityExternalities`, §5). Bars show central values; whiskers show Monte Carlo p5–p95 (N = 3,000).
+- **Cost per M tokens vs utilization**: the full cost falls roughly as 1/utilization, because fixed capex and opex are spread over more tokens. The energy-only cost is flat, because tokens and energy both scale with utilization.
+- **Price ÷ cost**: compares a public $/M-token price with the estimated full cost for *output* tokens of the selected model class. API prices bundle R&D, training and margin, so a ratio above 1 is not pure profit.
+
+## 11. Known limitations
 
 - Proprietary model sizes and serving setups are unknown, so the model-class approach is a deliberate simplification.
 - Token counts for non-OpenAI models are approximate unless metered chat mode (M5) is used.

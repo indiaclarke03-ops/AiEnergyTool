@@ -51,7 +51,18 @@ export const fileSchemas = {
   }),
   overheads: baseFile,
   grid: baseFile.extend({ regions: z.array(z.object({ key: z.string(), label: z.string() })).min(1) }),
-  datacenter_tco: baseFile,
+  datacenter_tco: baseFile.extend({
+    presets: z.array(
+      z.object({
+        id: z.string(),
+        label: z.string(),
+        description: z.string(),
+        values: z.record(z.string(), z.number().finite()),
+        sources: z.array(sourceSchema).min(1),
+        verified: z.boolean(),
+      }),
+    ),
+  }),
   levers: baseFile.extend({ levers: z.array(leverSchema) }),
 };
 
@@ -87,6 +98,7 @@ export function parseAssumptionFiles(raw: RawFiles): AssumptionSet {
       throw new Error(`Lever ${l.id} targets unknown region ${l.targetRegion}`);
     }
   }
+  for (const p of tco.presets) for (const id of Object.keys(p.values)) missing(id, `Preset ${p.id}`);
 
   return {
     versions: {
@@ -100,6 +112,7 @@ export function parseAssumptionFiles(raw: RawFiles): AssumptionSet {
     modelClasses: models.modelClasses,
     regions: grid.regions,
     levers: levers.levers,
+    tcoPresets: tco.presets,
   };
 }
 
@@ -123,6 +136,19 @@ export function withOverrides(set: AssumptionSet, overrides: Record<string, Rang
     assumptions[id] = { ...a, value };
   }
   return { ...set, assumptions };
+}
+
+/** Apply a preset's central values as overrides, keeping each assumption's relative uncertainty. */
+export function presetOverrides(set: AssumptionSet, presetId: string): Record<string, Range> {
+  const preset = set.tcoPresets.find((p) => p.id === presetId);
+  if (!preset) throw new Error(`Unknown preset ${presetId}`);
+  const out: Record<string, Range> = {};
+  for (const [id, x] of Object.entries(preset.values)) {
+    const base = set.assumptions[id]!.value;
+    // A zero-centred default (e.g. colocation rent) has no spread to scale: use ±30%.
+    out[id] = base.central === 0 ? { low: x * 0.7, central: x, high: x * 1.3 } : recenter(base, x);
+  }
+  return out;
 }
 
 /** Move a range's central value to `central`, scaling low/high proportionally (keeps relative uncertainty). */

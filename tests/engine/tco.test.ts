@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { capitalRecoveryFactor, computeTco, loadDefaultAssumptions, tcoFromValues, tcoParamsFromValues, valuesAt } from "../../src/engine";
+import { capitalRecoveryFactor, computeTco, loadDefaultAssumptions, presetOverrides, tcoFromValues, tcoParamsFromValues, valuesAt, withOverrides } from "../../src/engine";
 
 const v = valuesAt(loadDefaultAssumptions());
 
@@ -32,5 +32,26 @@ describe("TCO sanity (§6.3)", () => {
   it("lower utilization raises non-energy cost per kWh", () => {
     const p = tcoParamsFromValues(v);
     expect(computeTco({ ...p, utilization: 0.3 }).nonEnergyCostPerITKWh).toBeGreaterThan(computeTco(p).nonEnergyCostPerITKWh * 2);
+  });
+});
+
+describe("presets", () => {
+  const set = loadDefaultAssumptions();
+  const at = (id: string) => tcoFromValues(valuesAt(withOverrides(set, presetOverrides(set, id))));
+
+  it("Epoch preset equals the defaults", () => {
+    expect(at("epoch").annualTCO).toBeCloseTo(tcoFromValues(v).annualTCO);
+  });
+
+  it("H100 preset lands near ITK's ~9% electricity share", () => {
+    const t = at("h100");
+    expect(t.energyShare).toBeGreaterThan(0.06);
+    expect(t.energyShare).toBeLessThan(0.13);
+  });
+
+  it("colocation tenant has no facility capex but pays rent", () => {
+    const t = at("colo");
+    expect(t.annualCapex.facility).toBe(0);
+    expect(t.otherOpex.colocation).toBeGreaterThan(1e9);
   });
 });

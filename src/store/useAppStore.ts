@@ -15,6 +15,10 @@ type State = {
   activeLevers: string[];
   tokenSource: "manual" | "paste" | "metered";
   sessionId: number | null;
+  /** Module B: grid region used for the facility's externalities. */
+  tcoRegion: string;
+  /** Module B: optional public API price, $ per million tokens. */
+  apiPricePerMTok: number | null;
 
   setPage: (p: Page) => void;
   setQuery: (patch: Partial<QueryInput>) => void;
@@ -25,6 +29,9 @@ type State = {
   resetOverride: (id: string) => void;
   resetAllOverrides: () => void;
   setSessionId: (id: number) => void;
+  setOverrides: (patch: Record<string, Range | null>) => void;
+  setTcoRegion: (r: string) => void;
+  setApiPrice: (p: number | null) => void;
 };
 
 const pageFromHash = (): Page => {
@@ -50,6 +57,8 @@ export const useAppStore = create<State>((set) => ({
   activeLevers: [],
   tokenSource: "manual",
   sessionId: null,
+  tcoRegion: "us-east",
+  apiPricePerMTok: null,
 
   setPage: (page) => {
     if (typeof location !== "undefined") location.hash = `/${page}`;
@@ -68,6 +77,17 @@ export const useAppStore = create<State>((set) => ({
     }),
   resetAllOverrides: () => set({ overrides: {} }),
   setSessionId: (sessionId) => set({ sessionId }),
+  setOverrides: (patch) =>
+    set((s) => {
+      const next = { ...s.overrides };
+      for (const [id, r] of Object.entries(patch)) {
+        if (r === null) delete next[id];
+        else next[id] = r;
+      }
+      return { overrides: next };
+    }),
+  setTcoRegion: (tcoRegion) => set({ tcoRegion }),
+  setApiPrice: (apiPricePerMTok) => set({ apiPricePerMTok }),
 }));
 
 /** The assumption set in effect: defaults plus session overrides. */

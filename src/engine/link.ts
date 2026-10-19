@@ -2,7 +2,7 @@
 import { get } from "./assumptions";
 import { facilityWhPerToken, itWhPerToken } from "./queryEnergy";
 import { gridId } from "./impacts";
-import type { TcoResult } from "./tco";
+import { tcoFromValues, type TcoResult } from "./tco";
 import type { ModelClass, Values } from "./types";
 
 export type CostPerToken = {
@@ -56,5 +56,29 @@ export function facilityExternalities(tco: TcoResult, region: string, v: Values)
     energyExternalityUsd,
     totalExternalityUsd,
     energyShareOfExternality: energyExternalityUsd / totalExternalityUsd,
+  };
+}
+
+export type ModuleBMetrics = {
+  annualTCO: number;
+  energyShare: number;
+  costPerMTokFull: number;
+  costPerMTokEnergy: number;
+  energyShareOfExternality: number;
+  operationalCarbonT: number;
+};
+
+/** Headline Module B metrics at one point — the function Monte Carlo and the tornado chart run over. */
+export function moduleBAtPoint(v: Values, modelClass: ModelClass, region: string): ModuleBMetrics {
+  const tco = tcoFromValues(v);
+  const c = costPerToken(tco, modelClass, v);
+  const e = facilityExternalities(tco, region, v);
+  return {
+    annualTCO: tco.annualTCO,
+    energyShare: tco.energyShare,
+    costPerMTokFull: c.costPerMTokFull,
+    costPerMTokEnergy: c.costPerMTokEnergy,
+    energyShareOfExternality: e.energyShareOfExternality,
+    operationalCarbonT: e.operationalCarbonT,
   };
 }
